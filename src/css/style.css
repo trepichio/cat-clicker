@@ -41,3 +41,27 @@ body {
 	    	   color : white;
 	       font-size : 2em;
 }
+
+.nav{
+			position : absolute;
+		 line-height : 5em;
+		 margin-top  : -12px;
+}
+
+.listCats {
+		  list-style : none;
+		   font-size : 2em;
+	background-color : blue;
+			 padding : 15px;
+			   color : white;
+}
+
+.listCats li:hover {
+			   color : blue;
+	background-color : orange;
+}
+
+.listCats li:active {
+			   color : orange;
+	background-color : blue;
+}
