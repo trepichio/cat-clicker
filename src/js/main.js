@@ -1,16 +1,31 @@
 document.addEventListener( "DOMContentLoaded", function() {
-	var img = document.createElement('IMG');
-	img.src = 'src/img/kitten_640x426.jpg';
-	img.setAttribute('class', 'img');
+	var Cats = ['Stuart','Galileo'];
 
-	var $imgDiv = document.querySelector('.img-container')
-	$imgDiv.appendChild(img);
+	for (var i=0; i < Cats.length; i++){
+		var img = document.createElement('IMG');
+		img.src = 'src/img/cat_'+i+'.jpg';
+		img.setAttribute('class', 'img');
 
-	var $clickCount = document.querySelector('.click-counter');
-	var clicks = 0;
-	$imgDiv.addEventListener('click', function () {
-		var text = "No. Clicks: " + clicks++;
-		$clickCount.innerHTML = text;
-	}, false);
+		var $imgDiv = document.createElement('DIV');
+		$imgDiv.className = 'img-container';
+		$imgDiv.appendChild(img);
+
+		var $clickCount = document.createElement('DIV');
+		$clickCount.className = 'click-counter';
+		$clickCount.id = "counter_"+ i;
+		$imgDiv.appendChild($clickCount);
+
+		document.querySelector('.main-container').appendChild($imgDiv);
+		var clicks = 0;
+
+		$imgDiv.addEventListener('click', (function (c,i) {
+			
+			return function(){
+				var text = "No. Clicks: " + c++;
+				document.querySelector('#counter_'+i)
+					.innerHTML = text;
+			}
+		})(clicks,i), false);
+	}
 
 }, false);
