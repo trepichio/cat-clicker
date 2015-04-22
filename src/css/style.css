@@ -1,0 +1,44 @@
+body {
+	background-color : rgba(207, 226, 243, 0.69);
+		margin-left  : 25%;
+		margin-right : 25%;
+		 font-family : sans-serif;
+}
+
+.header {
+	background-color : rgb(129, 117, 104);
+		   font-size : 40px;
+		   	   color : white;
+			 padding : 5px;
+}
+
+.main-container {
+		 padding-top : 12px;
+	  padding-bottom : 12px;
+}
+
+.img-container {
+			  height : 426px;
+		 padding-top : 12px;
+	  padding-bottom : 12px;
+		 margin-left : auto;
+	    margin-right : auto;
+			   width : 640px;
+}
+
+.img {
+			  height : 426px;
+			   width : 640px;
+}
+
+.click-counter {
+  			  height : 2em;		
+	background-color : blue;
+			  border : 0;
+	   border-radius : 5px;
+	     margin-left : auto;
+	    margin-right : auto;
+	    	   width : 640px;
+	    	   color : white;
+	       font-size : 2em;
+}
