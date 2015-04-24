@@ -18,8 +18,6 @@ body {
 }
 
 .img-container {
-		 padding-top : 12px;
-	  padding-bottom : 12px;
 		 margin-left : auto;
 	    margin-right : auto;
 			   width : 640px;
@@ -45,7 +43,7 @@ body {
 .nav{
 			position : absolute;
 		 line-height : 5em;
-		 margin-top  : -12px;
+		 margin-top  : -20px;
 }
 
 .listCats {
@@ -64,4 +62,13 @@ body {
 .listCats li:active {
 			   color : orange;
 	background-color : blue;
+}
+
+.img {
+			  height : 420px;
+			   width : 640px;
+}
+
+.selected {
+			   color : green;
 }
