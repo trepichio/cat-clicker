@@ -22,6 +22,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 		var div = document.createElement('DIV');
 		div.className = 'click-counter';
 		div.setAttribute('id', 'counter-'+this.name);
+		div.textContent = this.name;
 
 		var $imgDiv = document.querySelector('#'+this.name);
 		$imgDiv.appendChild(div);
@@ -32,7 +33,7 @@ document.addEventListener( "DOMContentLoaded", function() {
 		var self = this;
 		document.querySelector('#'+self.name)
 			.addEventListener('click', function () {
-				var text = "No. Clicks: " + ++self.clickCount;
+				var text = self.name + " - No. Clicks: " + ++self.clickCount;
 				document.querySelector('#counter-'+self.name)
 					.innerHTML = text;
 			}, false);
