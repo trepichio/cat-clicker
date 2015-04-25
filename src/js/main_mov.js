@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.inpClicks = document.querySelector('#inpClicks');
 			this.btAdmin = document.querySelector('#btAdmin');
 			// this.btSubmit = document.querySelector('#btSubmit');
-			// this.btClear = document.querySelector('#btClear');
+			this.btClear = document.querySelector('#btClear');
 			// this.inputs = document.querySelectorAll('.input');
 			this.displayForm = 'none';
 			this.display = 'none';
@@ -182,6 +182,11 @@ document.addEventListener("DOMContentLoaded", function () {
 					viewAdmin.render();
 				}
 			})(this.adminForm),false);
+
+			this.btClear.addEventListener('click', function () {
+				viewAdmin.displayForm = 'none'; 
+				viewAdmin.render();
+			},false);
 
 			viewAdmin.render();
 		},
