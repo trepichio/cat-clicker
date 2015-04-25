@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			model.init();
 			viewList.init();
 			viewDisplay.init();
+			viewAdmin.init();
 		}
 	};
 
@@ -103,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						octupus.SelectCat(n);
 						viewList.update(this);
 					};
-				})(cat,i));
+				})(cat,i),false);
 			 });
 		},
 
@@ -139,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.displayPictureArea.addEventListener('click', function () {
 				octupus.updateClickCount();
 				viewDisplay.render();
-			});
+			},false);
 
 		},
 
@@ -153,9 +154,45 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.displayPictureArea.id = "pic-" + i;
 			this.displayCounterArea.id = "counter-" + i;
 			this.displayCounterArea.textContent = cat.name + " - No. Clicks: " + cat.clickCount;
-
 		}
 	};
+
+	var viewAdmin = {
+		init: function() {
+			this.adminForm = document.querySelector('.form-container');
+			// this.inpCatName = document.querySelector('#inpCatName');
+			// this.inpUrl = document.querySelector('#inpUrl');
+			this.inpClicks = document.querySelector('#inpClicks');
+			this.btAdmin = document.querySelector('#btAdmin');
+			// this.btSubmit = document.querySelector('#btSubmit');
+			// this.btClear = document.querySelector('#btClear');
+			// this.inputs = document.querySelectorAll('.input');
+			this.displayForm = 'none';
+			this.display = 'none';
+
+			this.btAdmin.addEventListener('click', (function (form) {
+				return function () {
+					var $displayForm = form.style.display;
+					if ($displayForm == 'none') {
+						viewAdmin.displayForm = '';
+					}
+					else{
+						viewAdmin.displayForm = 'none'; 
+					}
+					viewAdmin.render();
+				}
+			})(this.adminForm),false);
+
+			viewAdmin.render();
+		},
+
+		render: function() {
+			this.adminForm.style.display = this.displayForm;
+			this.inpClicks.previousElementSibling.style.display = this.display;
+			this.inpClicks.style.display = this.display;
+
+		}
+	}
 
 	// initializes the app
 	octupus.init();
