@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				'Stuart','Galileo','José','Sofia','Pink'
 			];
 			var data = [];
+
+			//current-selected cat
 			this.currentCatIndex = 0;
 
 			if (!localStorage.cats){
@@ -40,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			localStorage.cats = JSON.stringify(data);
 		},
 
-		updateCurrentCatValues: function(objSelCat,objNewVal){
+		//gets the list of cats and the index of current-selected cat from localStorage
+		//changes values of current-selected cat with new values and save them back to localStorage
+		//then gets the new sorted list of cats and returns the new index of current-selected cat 
+		updateCatValues: function(objSelCat,objNewVal){
 			var data = JSON.parse(localStorage.cats)
 			var pos = data.map(function(e) { return e.name; }).indexOf(objSelCat.name);
 			data[pos].name = objNewVal.name;
@@ -89,9 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			model.setSelectedCatCount(cat);
 		},
 
+		//gets current-selected cat and changes its values with new values
+		//from a cat object passed as param, and returns the new index of this cat
 		updateSelectedCat: function(objNewVal){
 			var cat = octupus.getSelectedCat();
-			return model.updateCurrentCatValues(cat,objNewVal);
+			return model.updateCatValues(cat,objNewVal);
 		},
 
 		// initializes model and views
@@ -112,6 +119,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			viewList.render();
 		},
 
+		//adds click event listeners to all items rendered on the list in order to
+		//render properly selected-cat's data on list, display and admin area
 		addClick: function(){
 			var data = octupus.getCats();
 			data.forEach(function (cat) {
@@ -122,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					return function(){
 						octupus.SelectCat(n);
 						viewList.update(this);
+						viewDisplay.render();
 						viewAdmin.render();
 					};
 				})(cat,i),false);
@@ -132,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		update: function(self){
 			document.querySelector('.selected').className = '';
 			self.className = 'selected';
-			viewDisplay.render();
 		},
 
 		// renders the names on the list and highlights the initialized cat
@@ -180,6 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	var viewAdmin = {
+		//initializes the view of Admin panel and add click events on all its button
 		init: function() {
 			this.adminForm = document.querySelector('.form-container');
 			this.inpCatName = document.querySelector('#inpCatName');
@@ -192,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.displayForm = 'none';
 			this.display = 'none';
 
+			//adds click event on 'admin' button to show/hide admin panel
 			this.btAdmin.addEventListener('click', (function (form) {
 				return function () {
 					var $displayForm = form.style.display;
@@ -205,11 +216,15 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			})(this.adminForm),false);
 
+			//adds click event on 'clear' button to hide addmin panel
 			this.btClear.addEventListener('click', function () {
 				viewAdmin.displayForm = 'none'; 
 				viewAdmin.render();
 			},false);
 
+			//adds click event on 'save' button to alter current-selected cat values
+			//with values from admin form inputs and updates(renders) all views
+			//then hides admin panel
 			this.btSubmit.addEventListener('click', function () {
 				var formValues = {};
 
@@ -229,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			viewAdmin.render();
 		},
 
+		//renders admin panel with current-selected cat values 
 		render: function() {
 			var selectedCat = octupus.getSelectedCat();
 			this.adminForm.style.display = this.displayForm;
