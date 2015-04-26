@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				catNames.forEach(function(catStr){
 					data.push({
 						name: catStr,
+						urlPicture: 'src/img/cat_'+ catNames.indexOf(catStr) +'.jpg',
 						clickCount: 0					
 					});
 				});
@@ -103,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					return function(){
 						octupus.SelectCat(n);
 						viewList.update(this);
+						viewAdmin.render();
 					};
 				})(cat,i),false);
 			 });
@@ -140,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.displayPictureArea.addEventListener('click', function () {
 				octupus.updateClickCount();
 				viewDisplay.render();
+				viewAdmin.render();
 			},false);
 
 		},
@@ -148,9 +151,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		render: function(){
 			var i = octupus.getSelectedCatIndex();
 			var cat = octupus.getSelectedCat();
-			var picture = '<img class="img" src="src/img/cat_'+ i +'.jpg">';
 			
-			this.displayPictureArea.innerHTML = picture;
+			
+			this.displayPictureArea.innerHTML = '<img class="img" src="'+ cat.urlPicture +'">';
 			this.displayPictureArea.id = "pic-" + i;
 			this.displayCounterArea.id = "counter-" + i;
 			this.displayCounterArea.textContent = cat.name + " - No. Clicks: " + cat.clickCount;
@@ -160,8 +163,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	var viewAdmin = {
 		init: function() {
 			this.adminForm = document.querySelector('.form-container');
-			// this.inpCatName = document.querySelector('#inpCatName');
-			// this.inpUrl = document.querySelector('#inpUrl');
+			this.inpCatName = document.querySelector('#inpCatName');
+			this.inpUrl = document.querySelector('#inpUrl');
 			this.inpClicks = document.querySelector('#inpClicks');
 			this.btAdmin = document.querySelector('#btAdmin');
 			// this.btSubmit = document.querySelector('#btSubmit');
@@ -192,9 +195,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 
 		render: function() {
+			var selectedCat = octupus.getSelectedCat();
 			this.adminForm.style.display = this.displayForm;
 			this.inpClicks.previousElementSibling.style.display = this.display;
 			this.inpClicks.style.display = this.display;
+			this.inpCatName.value = selectedCat.name;
+			this.inpUrl.value = selectedCat.urlPicture;
+			this.inpClicks.value = selectedCat.clickCount;
 
 		}
 	}
