@@ -40,6 +40,18 @@ document.addEventListener("DOMContentLoaded", function () {
 			localStorage.cats = JSON.stringify(data);
 		},
 
+		updateCurrentCatValues: function(objSelCat,objNewVal){
+			var data = JSON.parse(localStorage.cats)
+			var pos = data.map(function(e) { return e.name; }).indexOf(objSelCat.name);
+			data[pos].name = objNewVal.name;
+			data[pos].urlPicture = objNewVal.urlPicture;
+			data[pos].clickCount = objNewVal.clickCount;
+			localStorage.cats = JSON.stringify(data);
+			data = octupus.getCats();
+			pos = data.map(function(e){ return e.name; }).indexOf(objNewVal.name);
+			return pos;
+		},
+
 		// gets all cats stored as they are
 		getAllCats: function(){
 			return JSON.parse(localStorage.cats);
@@ -77,6 +89,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			model.setSelectedCatCount(cat);
 		},
 
+		updateSelectedCat: function(objNewVal){
+			var cat = octupus.getSelectedCat();
+			return model.updateCurrentCatValues(cat,objNewVal);
+		},
+
 		// initializes model and views
 		init: function(){
 			model.init();
@@ -92,10 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		// the data displayed on image-container (picture, name, clicks) and on sidebar (selected cat) 
 		init: function () {
 			this.catList = document.querySelector('.listCats');
-			this.cats = octupus.getCats();
-			var data = this.cats;
 			viewList.render();
+		},
 
+		addClick: function(){
+			var data = octupus.getCats();
 			data.forEach(function (cat) {
 				var i = data.indexOf(cat);
 				var $item = document.querySelector('#item-'+i);
@@ -121,12 +139,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		render: function(){
 			var i = octupus.getSelectedCatIndex();
 			var htmlStr = '';
-			var data = this.cats;
+			var data = octupus.getCats();
 			data.forEach(function (cat) {
 					htmlStr +=  '<li id="item-'+ data.indexOf(cat) + '">'+cat.name+'</li>';
 			});
 			this.catList.innerHTML =  htmlStr;
 			document.querySelector('#item-'+i).className = 'selected';
+			viewList.addClick();
 		}
 	};
 
@@ -167,9 +186,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.inpUrl = document.querySelector('#inpUrl');
 			this.inpClicks = document.querySelector('#inpClicks');
 			this.btAdmin = document.querySelector('#btAdmin');
-			// this.btSubmit = document.querySelector('#btSubmit');
+			this.btSubmit = document.querySelector('#btSubmit');
 			this.btClear = document.querySelector('#btClear');
-			// this.inputs = document.querySelectorAll('.input');
+			this.inputs = document.querySelectorAll('.input');
 			this.displayForm = 'none';
 			this.display = 'none';
 
@@ -190,6 +209,22 @@ document.addEventListener("DOMContentLoaded", function () {
 				viewAdmin.displayForm = 'none'; 
 				viewAdmin.render();
 			},false);
+
+			this.btSubmit.addEventListener('click', function () {
+				var formValues = {};
+
+				formValues.name = viewAdmin.inpCatName.value;
+				formValues.urlPicture = viewAdmin.inpUrl.value;
+				formValues.clickCount = viewAdmin.inpClicks.value;
+
+				var updatedIndex = octupus.updateSelectedCat(formValues);
+				octupus.SelectCat(updatedIndex);
+				viewAdmin.displayForm = 'none'; 
+				viewList.render();
+				viewDisplay.render();
+				viewAdmin.render();
+			},false);
+
 
 			viewAdmin.render();
 		},
